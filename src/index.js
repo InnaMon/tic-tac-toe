@@ -3,19 +3,31 @@ import ReactDOM from 'react-dom';
 import './index.css';
 
 class Square extends React.Component {
+constructor(props) {
+    super(props);
+    this.state = {
+        value: null
+    };
+}
+
     render() {
         return (
-          <button className="square">
-            {this.props.value}
-            {console.log(this.props)}
+          <button className="square"
+          onClick={() => this.setState({value: 'X'})}
+          > 
+            {this.state.value}
+            {console.log(this.state)}
           </button>
         );
     }
 }
 
+/* ^ arrow function makes function lexically scoped so that 'this' belongs to the Square comp and not the window */
+
 class Board extends React.Component {
+    //Board is parent of Square
     renderSquare(i) {
-        return <Square value={i}/>
+        return <Square value={i}/> //value is a property of Board, pass into Sqaure so it has access to it
     }
 
     render() {
