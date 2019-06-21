@@ -3,20 +3,14 @@ import ReactDOM from 'react-dom';
 import './index.css';
 
 class Square extends React.Component {
-constructor(props) {
-    super(props);
-    this.state = {
-        value: null
-    };
-}
-
     render() {
         return (
-          <button className="square"
-          onClick={() => this.setState({value: 'X'})}
+          <button 
+          className="square"
+          onClick={() => this.props.onClick()}
           > 
-            {this.state.value}
-            {console.log(this.state)}
+            {this.props.value}
+            {console.log(this.props)}
           </button>
         );
     }
@@ -34,11 +28,23 @@ class Board extends React.Component {
         };
     }
 
+    handleClick(i) {
+        const squares = this.state.squares.slice();
+        squares[i] = 'X';
+        this.setState({squares: squares});
+    }
+
     //Board is parent of Square
     renderSquare(i) {
-        return <Square value={this.state.squares[i]} /> //value is a property of Board, pass into Sqaure so it has access to it
+        return (
+          <Square 
+            value={this.state.squares[i]} 
+            onClick={() => this.handleClick(i)}
+          /> 
+        );
     }
     /*Board instructs each individual Square about its current value ('X', 'O', or null) */
+    /* In React, it’s conventional to use on[Event] names for props which represent events and handle[Event] for the methods which handle the events. */
 
     render() {
         const status = 'Next player: X';
